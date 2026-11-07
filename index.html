@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resume Screener – LCA & UI/UX</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--tx:#1b1f24;--mu:#667085;--bd:#e3e6ea;--ac:#2f6fed;--lca:#1f9d62;--ux:#7c4dff;--both:#d98a00;--non:#8a94a3;--bad:#d92d20}
+@media(prefers-color-scheme:dark){:root{--bg:#14161a;--card:#1c1f25;--tx:#e8eaed;--mu:#98a2b3;--bd:#2c313a}}
+*{box-sizing:border-box}body{margin:0;font:14px/1.45 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+header{padding:14px 20px;background:var(--card);border-bottom:1px solid var(--bd);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+h1{font-size:18px;margin:0}nav button{background:none;border:0;padding:8px 12px;cursor:pointer;color:var(--mu);font-weight:600;border-bottom:2px solid transparent}
+nav button.on{color:var(--ac);border-color:var(--ac)}main{padding:16px 20px;max-width:1400px;margin:auto}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 14px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+input,select,textarea,button{font:inherit;color:inherit;background:var(--card);border:1px solid var(--bd);border-radius:7px;padding:6px 9px}
+button.p{background:var(--ac);color:#fff;border-color:var(--ac);cursor:pointer}button{cursor:pointer}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:900px){.cols{grid-template-columns:1fr}}
+.row{display:grid;grid-template-columns:34px 1fr 90px;gap:8px;padding:8px 4px;border-top:1px solid var(--bd);cursor:pointer;align-items:center}
+.row:hover{background:rgba(47,111,237,.06)}.rk{font-weight:700;color:var(--mu)}
+.meter{height:6px;background:var(--bd);border-radius:4px;overflow:hidden;margin-top:4px}.meter i{display:block;height:100%}
+.sc{font-weight:700;text-align:right;font-size:16px}
+.b{display:inline-block;padding:1px 8px;border-radius:99px;font-size:11px;font-weight:700;color:#fff}
+.chip{display:inline-block;background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:0 6px;margin:2px 3px 0 0;font-size:11px}
+.mu{color:var(--mu);font-size:12px}.warn{color:var(--bad)}
+#drawer{position:fixed;top:0;right:0;width:min(620px,100%);height:100%;background:var(--card);border-left:1px solid var(--bd);box-shadow:-8px 0 30px rgba(0,0,0,.2);transform:translateX(100%);transition:.2s;overflow:auto;padding:16px;z-index:5}
+#drawer.on{transform:none}table{border-collapse:collapse;width:100%}td,th{padding:6px 8px;border-top:1px solid var(--bd);text-align:left;vertical-align:top}
+pre{white-space:pre-wrap;background:var(--bg);padding:8px;border-radius:6px;max-height:260px;overflow:auto;font-size:12px}
+h3{margin:12px 0 6px}.kv{display:grid;grid-template-columns:110px 1fr;gap:4px 10px}
+</style></head><body>
+<header><h1>Resume Screener <span class="mu">LCA (4–6 yrs) · UI/UX Intern</span></h1>
+<nav><button data-v="results" class="on">Results</button><button data-v="classify">Classification</button><button data-v="issues">Errors / warnings</button><button data-v="profiles">Job profiles</button><button data-v="method">Methodology</button></nav>
+<span id="status" class="mu"></span></header>
+<main>
+<div class="card bar" id="upbar">
+ <b>Test a new resume:</b><input type="file" id="one" accept=".pdf,.docx,.txt">
+ <b style="margin-left:14px">Add many:</b><input type="file" id="many" multiple accept=".pdf,.docx,.txt">
+ <button id="csv">Export CSV</button><span id="upres" class="mu"></span>
+</div>
+<div id="view"></div></main>
+<div id="drawer"></div>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const COL={LCA:'var(--lca)','UI/UX':'var(--ux)',Both:'var(--both)','Neither / Uncertain':'var(--non)',Unreadable:'var(--bad)'};
+const S={cands:[],T:30,gap:10,view:'results',q:'',cls:'',min:0,sort:'score',profiles:{
+ lca:{name:'LCA role',short:'LCA',minY:4,maxY:6,color:'var(--lca)',
+  jd:`Life Cycle Assessment specialist, 4-6 years experience. Conduct LCA studies per ISO 14040/14044, build life cycle inventory models, impact assessment (LCIA), product carbon footprint, EPD / environmental product declarations, using SimaPro, GaBi, openLCA, ecoinvent. Knowledge of GHG protocol, scope 3 emissions, sustainability reporting, ESG, circular economy, eco-design. (PLACEHOLDER - paste real JD1 here)`,
+  terms:{'life cycle assessment':5,'lca':5,'iso 14040':4,'iso 14044':4,'simapro':4,'gabi':4,'openlca':4,'ecoinvent':4,'epd':4,'environmental product declaration':4,'life cycle inventory':4,'lci':3,'lcia':4,'life cycle impact assessment':4,'cradle-to-gate':3,'cradle-to-grave':3,'carbon footprint':3,'product carbon footprint':3,'pcf':3,'ghg protocol':3,'greenhouse gas':3,'scope 3':3,'iso 14067':3,'environmental impact':3,'emission factor':3,'sustainability':2,'esg':2,'circular economy':2,'ecodesign':2,'eco-design':2,'climate':1,'cdp':1,'python':1,'excel':1,'data analysis':1}},
+ ux:{name:'UI/UX Design internship',short:'UI/UX',minY:0,maxY:2,color:'var(--ux)',
+  jd:`UI/UX Design intern. Create wireframes, prototypes, user flows and high-fidelity UI in Figma. Conduct user research, usability testing, build personas and journey maps, contribute to design system, information architecture, responsive design, accessibility. Portfolio with case studies required. (PLACEHOLDER - paste real JD2 here)`,
+  terms:{'figma':5,'wireframe':4,'wireframes':4,'prototype':4,'prototyping':4,'user research':4,'usability testing':4,'usability':3,'user experience':4,'user interface':3,'ux':3,'ui':2,'ui/ux':3,'design system':3,'interaction design':3,'user flow':3,'user flows':3,'persona':2,'personas':2,'information architecture':3,'visual design':3,'journey map':3,'case study':3,'portfolio':3,'behance':2,'dribbble':2,'adobe xd':3,'sketch':2,'invision':2,'photoshop':2,'illustrator':2,'responsive':2,'accessibility':2,'html':1,'css':1,'miro':1,'typography':1}}}};
+const GENERIC=['python','sql','java','javascript','react','excel','power bi','tableau','matlab','autocad','r','sap','photoshop','illustrator','figma','simapro','gabi','openlca','ecoinvent','canva','html','css'];
+const HEAD=/^(summary|profile|objective|(work |professional )?experience|employment|internships?|education|academics?|(academic |personal |key )?projects?|(technical )?skills|certifications?|achievements|awards|publications|interests|languages|references)\b/i;
+const EDU=/\b(b\.?tech|m\.?tech|b\.?e\.?|m\.?e\.?|b\.?sc|m\.?sc|b\.?des|m\.?des|bachelors?|masters?|ph\.?d|mba|diploma|b\.?arch|m\.?arch|b\.?com|m\.?com|bca|mca|b\.?a\.?|m\.?a\.?|university|college|institute|school)\b/i;
+const MONTHS='jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec';const MI={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,sept:8,oct:9,nov:10,dec:11};
+const DR=new RegExp(`(?:(${MONTHS})[a-z]*\\.?[\\s,'/-]*)?((?:19|20)\\d{2})\\s*(?:-|–|—|to)\\s*(?:(${MONTHS})[a-z]*\\.?[\\s,'/-]*)?((?:19|20)\\d{2}|present|current|ongoing|now|till date)`,'gi');
+
+/* ---------- parsing ---------- */
+async function pdfText(buf){const pdf=await pdfjsLib.getDocument({data:buf}).promise;let out='';
+ for(let p=1;p<=pdf.numPages;p++){const tc=await(await pdf.getPage(p)).getTextContent();let y=null;
+  for(const it of tc.items){const ny=it.transform[5];if(y!==null)out+=Math.abs(ny-y)>3?'\n':' ';out+=it.str;y=ny}out+='\n'}return out}
+async function toText(name,buf){const n=name.toLowerCase();
+ if(n.endsWith('.pdf'))return pdfText(buf);
+ if(n.endsWith('.docx'))return(await mammoth.extractRawText({arrayBuffer:buf})).value;
+ if(n.endsWith('.txt'))return new TextDecoder().decode(buf);
+ throw new Error('Unsupported format (use PDF, DOCX or TXT; legacy .doc is not supported)')}
+function section(lines,re){const i=lines.findIndex(l=>l.length<40&&re.test(l));if(i<0)return[];const o=[];
+ for(let j=i+1;j<lines.length&&o.length<12;j++){if(lines[j].length<40&&HEAD.test(lines[j]))break;o.push(lines[j])}return o}
+function yearsFrom(lines){const iv=[],now=new Date();let claimed=0;
+ lines.forEach(l=>{if(EDU.test(l))return;let m;DR.lastIndex=0;
+  while((m=DR.exec(l))){const s=+m[2]+(MI[(m[1]||'jan').toLowerCase()]||0)/12;
+   const e=/^\d/.test(m[4])?+m[4]+((m[3]?MI[m[3].toLowerCase()]:11)||0)/12:now.getFullYear()+now.getMonth()/12;if(e>=s&&e-s<40)iv.push([s,e])}
+  const c=l.match(/(\d{1,2})\s*\+?\s*(?:years|yrs)/i);if(c&&/experience/i.test(l))claimed=Math.max(claimed,+c[1])});
+ iv.sort((a,b)=>a[0]-b[0]);let t=0,cs=null,ce=null;iv.forEach(([s,e])=>{if(cs===null){cs=s;ce=e}else if(s<=ce)ce=Math.max(ce,e);else{t+=ce-cs;cs=s;ce=e}});if(cs!==null)t+=ce-cs;
+ return{years:Math.min(40,Math.max(t,claimed)),ranges:iv.length}}
+function extract(text){const lines=text.split(/\n+/).map(s=>s.trim()).filter(Boolean),f={name:'',education:[],skills:[],years:0,projects:[],experience:[],warnings:[],errors:[]};
+ const l0=lines[0]||'';if(l0.split(/\s+/).length<=5&&!/[\d@]/.test(l0)&&l0.length<40)f.name=l0;
+ f.education=lines.filter(l=>EDU.test(l)&&l.length<160).slice(0,4);
+ const low=text.toLowerCase();f.skills=GENERIC.filter(s=>new RegExp('(?<![a-z0-9])'+s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?![a-z0-9])').test(low));
+ f.projects=section(lines,/^(academic |personal |key )?projects?/i);f.experience=section(lines,/^(work |professional )?(experience|employment|internships?)/i);
+ const y=yearsFrom(lines);f.years=Math.round(y.years*10)/10;
+ if(text.length<50)f.errors.push('No readable text extracted – likely a scanned/image PDF or protected file (no OCR in this prototype). Review manually.');
+ else{if(text.length<400)f.warnings.push('Very little text extracted ('+text.length+' chars) – file may be partly image-based; scores are unreliable.');
+  if(!y.ranges)f.warnings.push('No date ranges found – experience years set to 0 (or taken from an explicit "X years" statement).');
+  if(!f.education.length)f.warnings.push('No education line detected.');
+  if(!f.projects.length&&!f.experience.length)f.warnings.push('No clear Experience/Projects headings – section extraction is partial.');}
+ return f}
+async function ingest(name,buf,url,src){const c={id:'c'+Math.random().toString(36).slice(2,9),file:name,url,src,text:'',f:{name:'',education:[],skills:[],years:0,projects:[],experience:[],warnings:[],errors:[]}};
+ try{const k='rtxt:'+name+':'+buf.byteLength;let t=null;try{t=localStorage.getItem(k)}catch(e){}
+  if(t===null){t=(await toText(name,buf)).replace(/\u00a0/g,' ');try{localStorage.setItem(k,t)}catch(e){}}
+  c.text=t;c.f=extract(t)}catch(e){c.f.errors.push('Parse failure: '+e.message)}
+ return c}
+
+/* ---------- scoring ---------- */
+const STOP=new Set('the and for with from that this are was have has you your our will can all any not but their they them his her its who which also may such into over per via etc using use used work working team years year'.split(' '));
+const tok=t=>(t.toLowerCase().match(/[a-z][a-z0-9+#\/.-]{1,}/g)||[]).map(w=>w.replace(/[.\-\/]+$/,'')).filter(w=>w.length>2&&!STOP.has(w));
+function rx(P){if(P._k!==JSON.stringify(P.terms)){P._r=Object.entries(P.terms).map(([t,w])=>[t,w,new RegExp('(?<![a-z0-9])'+t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/ /g,'[\\s\\-]+')+'(?![a-z0-9])','gi')]);P._k=JSON.stringify(P.terms);P._tot=Object.values(P.terms).reduce((a,b)=>a+b,0)}return P._r}
+function computeAll(){const ok=S.cands.filter(c=>c.text.length>=50),P=S.profiles;
+ const docs=ok.map(c=>tok(c.text)).concat(Object.values(P).map(p=>tok(p.jd))),df=new Map;docs.forEach(d=>new Set(d).forEach(w=>df.set(w,(df.get(w)||0)+1)));
+ const idf=w=>Math.log((docs.length+1)/((df.get(w)||0)+1))+1,vec=t=>{const m=new Map;t.forEach(w=>m.set(w,(m.get(w)||0)+1));m.forEach((v,w)=>m.set(w,(1+Math.log(v))*idf(w)));return m};
+ const cos=(a,b)=>{let d=0,x=0,y=0;a.forEach((v,w)=>{x+=v*v;if(b.has(w))d+=v*b.get(w)});b.forEach(v=>y+=v*v);return x&&y?d/Math.sqrt(x*y):0};
+ Object.values(P).forEach(p=>p._v=vec(tok(p.jd)));
+ S.cands.forEach(c=>{c.scores=null;c.rank={};if(c.text.length<50){c.cls='Unreadable';return}
+  const low=c.text.toLowerCase(),v=vec(tok(c.text));c.scores={};
+  for(const k in P){const p=P[k],matched=[];let mw=0;rx(p).forEach(([t,w,r])=>{const n=(low.match(r)||[]).length;if(n){matched.push({t,w,n});mw+=w*(1+0.15*Math.min(Math.log2(n),3))}});
+   matched.sort((a,b)=>b.w*b.n-a.w*a.n);const skill=Math.min(1,mw/(0.4*p._tot)),sim=Math.min(1,cos(v,p._v)/0.3),rel=Math.min(1,skill/0.4),y=c.f.years;let exp;
+   if(k==='lca'){const ry=y*rel;exp=ry<p.minY?ry/p.minY:ry<=p.maxY+3?1:.85}
+   else exp=.5*Math.min(1,y*rel)+.5*((c.f.projects.length||/behance|dribbble|portfolio/i.test(c.text))?1:0);
+   c.scores[k]={total:Math.round(100*(.5*skill+.25*sim+.25*exp)*10)/10,skill,sim,exp,matched}}
+  const a=c.scores.lca.total,b=c.scores.ux.total,mx=Math.max(a,b);
+  c.cls=mx<S.T?'Neither / Uncertain':(Math.min(a,b)>=S.T&&Math.abs(a-b)<S.gap)?'Both':a>b?'LCA':'UI/UX'});
+ for(const k in P)S.cands.filter(c=>c.scores).sort((a,b)=>b.scores[k].total-a.scores[k].total).forEach((c,i)=>c.rank[k]=i+1)}
+
+/* ---------- UI ---------- */
+const badge=c=>`<span class="b" style="background:${COL[c]}">${c}</span>`;
+const nr=()=>S.cands.filter(c=>c.scores).length;
+const display=c=>c.f.name||c.file;
+function filt(list){const q=S.q.toLowerCase();return list.filter(c=>(!q||(c.file+c.text).toLowerCase().includes(q))&&(!S.cls||c.cls===S.cls))}
+function controls(){return`<div class="card bar"><input id="q" placeholder="Search name/skill/text…" value="${esc(S.q)}">
+<select id="cls"><option value="">All classes</option>${Object.keys(COL).map(k=>`<option ${S.cls===k?'selected':''}>${k}</option>`).join('')}</select>
+<select id="sort">${[['score','Sort: score'],['years','Sort: experience yrs'],['name','Sort: name']].map(([v,l])=>`<option value="${v}" ${S.sort===v?'selected':''}>${l}</option>`).join('')}</select>
+<label>Min score <input type="number" id="min" value="${S.min}" style="width:60px"></label>
+<label>Match threshold <input type="number" id="T" value="${S.T}" style="width:60px"></label><label>"Both" gap <input type="number" id="gap" value="${S.gap}" style="width:60px"></label></div>`}
+function bind(){const m={q:'q',cls:'cls',sort:'sort',min:'min',T:'T',gap:'gap'};for(const k in m){const e=$('#'+m[k]);if(!e)continue;e.onchange=e.oninput=()=>{S[k]=['min','T','gap'].includes(k)?+e.value:e.value;if(k==='T'||k==='gap')computeAll();render(k==='q'?'q':null)}}}
+function column(k){const p=S.profiles[k];let l=filt(S.cands.filter(c=>c.scores&&c.scores[k].total>=S.min));
+ l.sort((a,b)=>S.sort==='years'?b.f.years-a.f.years:S.sort==='name'?display(a).localeCompare(display(b)):a.rank[k]-b.rank[k]);
+ return`<div class="card"><h3 style="margin-top:0;color:${p.color}">${p.name} <span class="mu">(${l.length} shown)</span></h3>
+ <div class="mu">Score = 50% weighted skill coverage + 25% JD text similarity (TF-IDF cosine) + 25% experience fit</div>${l.map(c=>{const s=c.scores[k];return`<div class="row" onclick="openC('${c.id}')"><div class="rk">#${c.rank[k]}</div>
+ <div><b>${esc(display(c))}</b> ${badge(c.cls)}${c.f.errors.length||c.f.warnings.length?' <span class="warn" title="has warnings">⚠</span>':''}<div class="mu">${c.f.years} yrs · ${s.matched.length} keyword hits${c.src==='upload'?' · uploaded':''}</div>
+ <div>${s.matched.slice(0,5).map(m=>`<span class="chip">${esc(m.t)}×${m.n}</span>`).join('')}</div></div>
+ <div><div class="sc">${s.total}</div><div class="meter"><i style="width:${s.total}%;background:${p.color}"></i></div></div></div>`}).join('')||'<p class="mu">No candidates match filters.</p>'}</div>`}
+function render(keep){const v=$('#view');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===S.view));
+ if(keep==='q'){/* keep focus */}
+ if(S.view==='results')v.innerHTML=controls()+`<p class="mu">${nr()} readable of ${S.cands.length} resumes ranked. Click a candidate for evidence & logic.</p><div class="cols">${column('lca')}${column('ux')}</div>`;
+ else if(S.view==='classify'){const l=filt(S.cands).sort((a,b)=>(b.scores?Math.max(b.scores.lca.total,b.scores.ux.total):-1)-(a.scores?Math.max(a.scores.lca.total,a.scores.ux.total):-1));
+  const cnt=Object.keys(COL).map(k=>`${badge(k)} ${S.cands.filter(c=>c.cls===k).length}`).join(' &nbsp; ');
+  v.innerHTML=controls()+`<div class="card"><p>${cnt}</p><table><tr><th>Resume</th><th>Class</th><th>LCA</th><th>UI/UX</th><th>Yrs</th><th>Top evidence</th></tr>${l.map(c=>`<tr onclick="openC('${c.id}')" style="cursor:pointer"><td>${esc(display(c))}</td><td>${badge(c.cls)}</td><td>${c.scores?c.scores.lca.total+' (#'+c.rank.lca+')':'–'}</td><td>${c.scores?c.scores.ux.total+' (#'+c.rank.ux+')':'–'}</td><td>${c.f.years}</td><td>${c.scores?[...c.scores.lca.matched.slice(0,2),...c.scores.ux.matched.slice(0,2)].map(m=>`<span class="chip">${esc(m.t)}</span>`).join(''):''}</td></tr>`).join('')}</table></div>`}
+ else if(S.view==='issues'){const l=S.cands.filter(c=>c.f.errors.length||c.f.warnings.length);
+  v.innerHTML=`<div class="card"><h3 style="margin-top:0">Extraction errors & warnings (${l.length} of ${S.cands.length})</h3><p class="mu">Errors = nothing usable extracted. Warnings = partial extraction; scores for these files may be understated, so inspect the source resume.</p><table>${l.map(c=>`<tr onclick="openC('${c.id}')" style="cursor:pointer"><td><b>${esc(c.file)}</b></td><td>${c.f.errors.map(e=>`<div class="warn">✖ ${esc(e)}</div>`).join('')}${c.f.warnings.map(e=>`<div>⚠ ${esc(e)}</div>`).join('')}</td></tr>`).join('')||'<tr><td>No issues 🎉</td></tr>'}</table></div>`}
+ else if(S.view==='profiles')v.innerHTML=`<div class="cols">${Object.entries(S.profiles).map(([k,p])=>`<div class="card"><h3 style="margin-top:0;color:${p.color}">${p.name}</h3><div class="mu">Job description (paste the real one):</div><textarea id="jd_${k}" rows="8" style="width:100%">${esc(p.jd)}</textarea>
+  <div class="mu">Keyword weights (one per line, "term: weight" 1–5):</div><textarea id="tm_${k}" rows="14" style="width:100%;font-family:monospace">${esc(Object.entries(p.terms).map(([t,w])=>t+': '+w).join('\n'))}</textarea>
+  <label>Ideal experience (yrs) min <input type="number" id="mn_${k}" value="${p.minY}" style="width:55px"> max <input type="number" id="mx_${k}" value="${p.maxY}" style="width:55px"></label></div>`).join('')}</div><p><button class="p" id="apply">Apply & re-rank</button></p>`;
+ else v.innerHTML=METHOD;
+ bind();if($('#apply'))$('#apply').onclick=()=>{for(const k in S.profiles){const p=S.profiles[k];p.jd=$('#jd_'+k).value;const t={};$('#tm_'+k).value.split('\n').forEach(l=>{const m=l.match(/^(.+?):\s*([\d.]+)\s*$/);if(m)t[m[1].trim().toLowerCase()]=+m[2]});p.terms=t;p.minY=+$('#mn_'+k).value;p.maxY=+$('#mx_'+k).value}computeAll();S.view='results';render()}
+ if(keep==='q'){const e=$('#q');e.focus();e.setSelectionRange(e.value.length,e.value.length)}}
+function openC(id){const c=S.cands.find(x=>x.id===id),d=$('#drawer');
+ const sc=k=>{if(!c.scores)return'';const s=c.scores[k],p=S.profiles[k];return`<div class="card" style="margin-bottom:8px"><b style="color:${p.color}">${p.name}: ${s.total}/100 — rank #${c.rank[k]} of ${nr()}</b>
+ <div class="mu">= 50%×skills(${(s.skill*100).toFixed(0)}) + 25%×text-sim(${(s.sim*100).toFixed(0)}) + 25%×experience-fit(${(s.exp*100).toFixed(0)})</div>
+ <div>${s.matched.map(m=>`<span class="chip">${esc(m.t)} ×${m.n} (w${m.w})</span>`).join('')||'<span class="mu">No role keywords found</span>'}</div></div>`};
+ d.innerHTML=`<button onclick="$('#drawer').classList.remove('on')" style="float:right">Close ✕</button><h2 style="margin:0">${esc(display(c))}</h2><p>${badge(c.cls)} <span class="mu">${esc(c.file)}</span></p>
+ ${c.url?`<a href="${c.url}" target="_blank">Open source resume ↗</a>`:'<span class="mu">Source link unavailable (resume added in an earlier session)</span>'}
+ ${c.f.errors.map(e=>`<p class="warn">✖ ${esc(e)}</p>`).join('')}${c.f.warnings.map(e=>`<p>⚠ ${esc(e)}</p>`).join('')}
+ <h3>Ranking logic & evidence</h3>${sc('lca')}${sc('ux')}
+ <h3>Extracted information</h3><div class="kv"><b>Experience</b><span>${c.f.years} years (merged job date ranges, education excluded)</span><b>Education</b><span>${c.f.education.map(esc).join('<br>')||'<i>not found</i>'}</span><b>Skills</b><span>${c.f.skills.map(s=>`<span class="chip">${s}</span>`).join('')||'<i>none from known list</i>'}</span>
+ <b>Experience section</b><span>${c.f.experience.map(esc).join('<br>')||'<i>not found</i>'}</span><b>Projects</b><span>${c.f.projects.map(esc).join('<br>')||'<i>not found</i>'}</span></div>
+ <details><summary>Raw extracted text</summary><pre>${esc(c.text)}</pre></details>`;d.classList.add('on')}
+
+/* ---------- loading / uploads ---------- */
+async function loadPile(){let list=[];try{list=await(await fetch('resumes/manifest.json')).json()}catch(e){}
+ if(!list.length){$('#status').textContent='No resumes in resumes/manifest.json – add files & run make-manifest.js, or use "Add many".';render();return}
+ let i=0;const worker=async()=>{while(i<list.length){const n=list[i++];$('#status').textContent=`Parsing ${i}/${list.length}…`;
+  try{const r=await fetch('resumes/'+encodeURIComponent(n));if(!r.ok)throw new Error('HTTP '+r.status);S.cands.push(await ingest(n,await r.arrayBuffer(),'resumes/'+encodeURIComponent(n),'pile'))}
+  catch(e){S.cands.push({id:'c'+i,file:n,url:'resumes/'+encodeURIComponent(n),src:'pile',text:'',f:{name:'',education:[],skills:[],years:0,projects:[],experience:[],warnings:[],errors:['Could not load file: '+e.message]}})}}};
+ await Promise.all([worker(),worker(),worker(),worker()]);S.cands.sort((a,b)=>a.file.localeCompare(b.file));computeAll();$('#status').textContent=S.cands.length+' resumes loaded';render()}
+async function addFiles(files,single){const added=[];for(const f of files){$('#status').textContent='Parsing '+f.name+'…';added.push(await ingest(f.name,await f.arrayBuffer(),URL.createObjectURL(f),'upload'))}
+ S.cands.push(...added);computeAll();$('#status').textContent=S.cands.length+' resumes in pile';render();
+ if(single&&added[0]){const c=added[0];$('#upres').innerHTML=c.scores?`<b>${esc(c.file)}</b>: ${badge(c.cls)} LCA #${c.rank.lca}/${nr()} (${c.scores.lca.total}) · UI/UX #${c.rank.ux}/${nr()} (${c.scores.ux.total}) <a href="#" onclick="openC('${c.id}');return false">details</a>`:`<span class="warn">${esc(c.f.errors[0]||'unreadable')}</span>`;if(c.scores)openC(c.id)}}
+$('#one').onchange=e=>e.target.files.length&&addFiles(e.target.files,true);$('#many').onchange=e=>addFiles(e.target.files,false);
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{S.view=b.dataset.v;render()});
+$('#csv').onclick=()=>{const rows=[['file','name','class','lca_score','lca_rank','ux_score','ux_rank','years','warnings']].concat(S.cands.map(c=>[c.file,c.f.name,c.cls,c.scores?.lca.total??'',c.rank.lca??'',c.scores?.ux.total??'',c.rank.ux??'',c.f.years,c.f.errors.concat(c.f.warnings).join(' | ')]));
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(',')).join('\n')],{type:'text/csv'}));a.download='ranking.csv';a.click()};
+const METHOD=`<div class="card"><h2 style="margin-top:0">Methodology</h2>
+<h3>1. Ingestion & extraction</h3><p>Resumes (PDF/DOCX/TXT) are parsed in the browser: pdf.js for PDFs (line order rebuilt from text-item Y positions), mammoth for DOCX. Extracted per resume: name (if first line looks like one), education lines (degree/institution regex), known skills, experience section, projects section, and <b>years of experience</b> = union of job date ranges ("Jan 2019 – Present"), with education lines excluded and overlapping ranges merged, or an explicit "N years of experience" statement if larger. Every result links back to the source file.</p>
+<h3>2. Scoring (0–100) per role</h3><ul><li><b>50% Skill coverage:</b> weighted role keyword dictionary (weights 1–5, editable in "Job profiles"). Matched weight (repeat mentions add a small capped bonus) ÷ 40% of total vocabulary weight, capped at 1. Word-boundary matching avoids false hits like "ui" inside "build".</li>
+<li><b>25% Text similarity:</b> TF-IDF cosine between the resume and the JD text (IDF computed over the whole pile + both JDs), scaled so 0.30 cosine = full marks.</li>
+<li><b>25% Experience fit:</b> LCA: role-relevant years (total years × min(1, skill/0.4), so unrelated experience is discounted) vs the 4–6 yr band; full marks inside band up to +3 yrs, slight penalty beyond, linear below. UI/UX (internship): 50% relevant experience (≥1 yr = full) + 50% evidence of projects/portfolio.</li></ul>
+<h3>3. Classification</h3><p>Let T = match threshold (default 30) and G = gap (default 10), both adjustable. Both scores &lt; T → <b>Neither / Uncertain</b>. Both ≥ T and |diff| &lt; G → <b>Both</b>. Otherwise the higher role wins. Unreadable files are flagged <b>Unreadable</b> and never silently ranked.</p>
+<h3>4. Data cleaning / human review</h3><p>AI/regex extraction is not trusted blindly: the Errors tab lists every file with empty/partial text, missing dates, missing education or missing section headings; reviewers open the source link, correct the keyword vocabulary/JD, and re-rank. Scanned (image) PDFs are not OCR'd – they are surfaced as errors instead of being scored as zero-evidence candidates.</p>
+<h3>5. Limitations</h3><p>Keyword/TF-IDF ranking is transparent and fast but lexical: it can miss synonyms and cannot verify claims. Multi-column PDFs may interleave text. Scores are decision support for human reviewers, not decisions. Uploaded test resumes live only in the current browser session.</p></div>`;
+loadPile();
+</script></body></html>
