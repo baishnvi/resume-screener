@@ -8,4 +8,7 @@ Parsing runs in the browser (pdf.js + mammoth), so uploads of new resumes work o
 
 # Live Demo
 <img width="1366" height="768" alt="Screenshot (497)" src="https://github.com/user-attachments/assets/f3eb8728-267c-47cb-b773-2faeb7610423" />
+
+
+
 <img width="1366" height="768" alt="Screenshot (498)" src="https://github.com/user-attachments/assets/30b4df08-8358-4f1f-b51a-34339d02dc9d" />
